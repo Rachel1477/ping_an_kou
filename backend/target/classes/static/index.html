@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF--8">
+  <title>WebSocket Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+    #messageInput { width: 300px; padding: 5px; }
+    button { padding: 5px 10px; }
+  </style>
+</head>
+<body>
+<h1>Spring Boot WebSocket Test</h1>
+
+<div id="status">Status: Disconnected</div>
+<div id="messages"></div>
+
+<div>
+  <input type="text" id="messageInput" placeholder="Type a message...">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  // 后端 WebSocket 服务器地址
+  const wsUrl = "ws://localhost:8080/ws/data";
+  let websocket;
+
+  const statusDiv = document.getElementById('status');
+  const messagesDiv = document.getElementById('messages');
+  const messageInput = document.getElementById('messageInput');
+
+  function connect() {
+      websocket = new WebSocket(wsUrl);
+
+      websocket.onopen = function(event) {
+          logToScreen("Connected to WebSocket server.");
+          statusDiv.textContent = "Status: Connected";
+          statusDiv.style.color = "green";
+      };
+
+      websocket.onmessage = function(event) {
+          logToScreen("<span>Server:</span> " + event.data);
+      };
+
+      websocket.onclose = function(event) {
+          logToScreen("Connection closed.");
+          statusDiv.textContent = "Status: Disconnected";
+          statusDiv.style.color = "red";
+      };
+
+      websocket.onerror = function(event) {
+          logToScreen("<span style='color: red;'>Error:</span> " + event.data);
+      };
+  }
+
+  function sendMessage() {
+      if (websocket.readyState === WebSocket.OPEN) {
+          const message = messageInput.value;
+          logToScreen("<span>Client:</span> " + message);
+          websocket.send(message);
+          messageInput.value = "";
+      } else {
+          logToScreen("Cannot send message. WebSocket is not open.");
+      }
+  }
+
+  function logToScreen(message) {
+      const p = document.createElement('p');
+      p.style.margin = "0";
+      p.innerHTML = message;
+      messagesDiv.appendChild(p);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // 自动滚动到底部
+  }
+
+  // 页面加载时自动尝试连接
+  window.onload = connect;
+
+</script>
+</body>
+</html>

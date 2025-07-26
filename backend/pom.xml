@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot 父项目配置，用于管理所有依赖的版本 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- 使用一个稳定的 Spring Boot 3.x 版本，它兼容 JDK 17及以上（包括JDK 18） -->
+        <version>3.2.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 项目基本信息 -->
+    <groupId>com.example</groupId>
+    <artifactId>iot-backend</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>iot-backend</name>
+    <description>IoT Backend for PingAnKou Project</description>
+
+    <!-- 项目属性配置 -->
+    <properties>
+        <!-- 设置Java编译版本。Spring Boot 3 要求至少 JDK 17。你的 JDK 18 完全兼容。 -->
+        <java.version>17</java.version>
+    </properties>
+
+    <!-- 项目依赖列表 -->
+    <dependencies>
+
+        <!-- 1. Spring Boot Web Starter: 包含嵌入式Tomcat服务器和Spring MVC支持 -->
+        <!-- 这是运行Web应用和提供静态文件（如index.html）的基础 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 2. Spring Boot WebSocket Starter: 提供WebSocket通信支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- 3. Spring Boot Test Starter: 用于单元测试和集成测试的工具 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!-- 构建配置 -->
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven 插件：用于将项目打包成一个可执行的 JAR 文件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
